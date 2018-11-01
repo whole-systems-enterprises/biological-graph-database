@@ -61,6 +61,15 @@ python3 load_and_link_synonyms.py --hostname localhost --username neo4j --passwo
 python3 link_genes_to_taxonomy.py --hostname localhost --username neo4j --password a-not-too-serious-password
 ```
 
+## Running the Harvard Medical School code
+
+cd project_for_Harvard_Medical_School__Kevin/
+
+python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not-too-serious-password
+
+
+
+
 ## Useful queries
 
 ### Boring queries

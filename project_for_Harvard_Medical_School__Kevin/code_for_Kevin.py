@@ -6,19 +6,40 @@ import pandas as pd
 import pprint as pp
 from neo4j import GraphDatabase
 import sys
+import argparse
+import os
+
+#
+# CRUDE
+#
+cwd = '/'.join(os.getcwd().split('/')[0:-1])
+sys.path.append(cwd)
 import utilities as ut
 
 #
 # user settings
 #
-number_of_papers_file = 'data/kevin/TestSetToTryGraphDatabase/NumberPapersPerCaGeneCombo-Table-1.csv'
-throw_out = ['', 'LYNCH|GENE', 'multiple', 'MUTYH-Biallelic', 'MUTYH-Monoallelic', 'TGFBR1()6A']
-username = 'neo4j'
-hostname = sys.argv[1]
-password = sys.argv[2]
-uri = 'bolt://' + hostname + ':7687'
-
+number_of_papers_file = '../data/Harvard_Medical_School__Kevin/TestSetToTryGraphDatabase/NumberPapersPerCaGeneCombo-Table-1.csv'
 locate_genes = True
+
+throw_out = ['', 'LYNCH|GENE', 'multiple', 'MUTYH-Biallelic', 'MUTYH-Monoallelic', 'TGFBR1()6A']
+
+#
+# command line arguments
+#
+parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
+parser.add_argument('--hostname', type=str, help='Hostname.', required=True)
+parser.add_argument('--username', type=str, help='Neo4j username.', required=True)
+parser.add_argument('--password', type=str, help='Neo4j password.', required=True)
+args = parser.parse_args()
+
+#
+# Neo4j settings
+#
+output_directory = 'output'
+username = args.username
+password = args.password
+uri = 'bolt://' + args.hostname + ':7687'
 
 #
 # load data

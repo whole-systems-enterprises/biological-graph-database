@@ -10,6 +10,13 @@ import argparse
 import utilities as ut
 
 #
+# CRUDE
+#
+cwd = '/'.join(os.getcwd().split('/')[0:-1])
+print(cwd)
+
+
+#
 # command line arguments
 #
 parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
@@ -17,13 +24,12 @@ parser.add_argument('--hostname', type=str, help='Hostname.', required=True)
 parser.add_argument('--username', type=str, help='Neo4j username.', required=True)
 parser.add_argument('--password', type=str, help='Neo4j password.', required=True)
 parser.add_argument('--chunk-size', type=int, help='Chunk size.', default=25000)
-parser.add_argument('--limit-taxonomies-to', type=str, help='Comma-delimited, e.g. 9606,10090,10116')
 args = parser.parse_args()
 
 chunk_size = args.chunk_size
 
 #
-# user settings
+# Neo4j settings
 #
 output_directory = 'output'
 username = args.username

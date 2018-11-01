@@ -23,6 +23,7 @@ parser.add_argument('--limit-taxonomies-to', type=str, help='Comma-delimited, e.
 args = parser.parse_args()
 
 chunk_size = 10000
+list_length = 10000
 
 limit_taxonomies = False
 tax_ids_to_keep = []
@@ -107,9 +108,14 @@ the_list = []
 for gene_id in gene_id_to_pubmed_id.keys():
     for pubmed_id in gene_id_to_pubmed_id[gene_id].keys():
         the_list.append([gene_id, pubmed_id])
+
+        if len(the_list) >= list_length:
+            cmd = 'UNWIND $list_to_use AS n MATCH (g:NCBI_GENE), (p:NCBI_PUBMED) WHERE g.id = n[0] AND p.id = n[1] CREATE (p)-[r:INVOLVES_NCBI_GENE]->(g) RETURN p, r, g;'
+            ut.load_list(the_list, chunk_size, driver, cmd)
+            the_list = []
 cmd = 'UNWIND $list_to_use AS n MATCH (g:NCBI_GENE), (p:NCBI_PUBMED) WHERE g.id = n[0] AND p.id = n[1] CREATE (p)-[r:INVOLVES_NCBI_GENE]->(g) RETURN p, r, g;'
 ut.load_list(the_list, chunk_size, driver, cmd)
-
+            
 
 
 

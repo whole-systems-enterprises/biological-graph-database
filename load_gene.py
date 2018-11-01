@@ -10,13 +10,6 @@ import argparse
 import utilities as ut
 
 #
-# CRUDE
-#
-cwd = '/'.join(os.getcwd().split('/')[0:-1])
-print(cwd)
-
-
-#
 # command line arguments
 #
 parser = argparse.ArgumentParser(description='Set up SageMaker training data.')

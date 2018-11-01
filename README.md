@@ -61,7 +61,7 @@ python3 load_and_link_synonyms.py --hostname localhost --username neo4j --passwo
 python3 link_genes_to_taxonomy.py --hostname localhost --username neo4j --password a-not-too-serious-password
 ```
 
-## Running the Harvard Medical School code
+## Running the code we created for a Harvard Medical School demonstration
 
 cd project_for_Harvard_Medical_School__Kevin/
 

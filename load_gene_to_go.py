@@ -1,3 +1,6 @@
+#
+# Copyright 2018 Whole-Systems Enterprises, Inc.
+#
 
 #
 # import useful libraries

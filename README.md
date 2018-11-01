@@ -1,8 +1,8 @@
 # biological-graph-database
 
-Graph Database Builder for Biological Applications (particularly molecular biology applications)
+Graph Database Infrastructure for Biological Applications (particularly molecular biology applications)
 
-This is basically where we are collecting all our Neo4j code for making general purpose, non-proprietary biological graph databases.
+This is basically where we are collecting all our Neo4j code for making general purpose biological graph databases. We've found this infrastructure useful on multiple occasions.
 
 We started with NCBI's taxonomy and gene data.
 

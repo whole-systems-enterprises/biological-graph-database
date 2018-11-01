@@ -6,18 +6,29 @@ import pickle
 from neo4j import GraphDatabase
 import sys
 import glob
+import argparse
 import utilities as ut
+
+#
+# command line arguments
+#
+parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
+parser.add_argument('--hostname', type=str, help='Hostname.', required=True)
+parser.add_argument('--username', type=str, help='Neo4j username.', required=True)
+parser.add_argument('--password', type=str, help='Neo4j password.', required=True)
+parser.add_argument('--chunk-size', type=int, help='Chunk size.', default=25000)
+parser.add_argument('--limit-taxonomies-to', type=str, help='Comma-delimited, e.g. 9606,10090,10116')
+args = parser.parse_args()
+
+chunk_size = args.chunk_size
 
 #
 # user settings
 #
-chunk_size = 25000
 output_directory = 'output'
-username = 'neo4j'
-password = sys.argv[2]
-
-hostname = sys.argv[1]
-uri = 'bolt://' + hostname + ':7687'
+username = args.username
+password = args.password
+uri = 'bolt://' + args.hostname + ':7687'
 
 #
 # get file list

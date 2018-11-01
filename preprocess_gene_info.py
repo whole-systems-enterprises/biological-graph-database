@@ -6,6 +6,20 @@ import pprint as pp
 import pickle
 import uuid
 import os
+import argparse
+
+#
+# command line arguments
+#
+parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
+parser.add_argument('--limit-taxonomies-to', type=str, help='Comma-delimited, e.g. 9606,10090,10116')
+args = parser.parse_args()
+
+limit_taxonomies = False
+tax_ids_to_keep = []
+if args.limit_taxonomies_to != None:
+    limit_taxonomies = True
+    tax_ids_to_keep = [int(x.strip()) for x in args.limit_taxonomies_to.split(',')] 
 
 #
 # user settings
@@ -13,7 +27,6 @@ import os
 gene_info_file = 'data/gene/gene_info'
 output_directory = 'output'
 max_gene_info_list_size = 1000000
-tax_id_to_keep = [9606]
 
 #
 # CRUDELY clear the way
@@ -47,8 +60,9 @@ for line in f:
     type_of_gene = line[9]
     name = line[11]
 
-    if not tax_id in tax_id_to_keep:
-        continue
+    if limit_taxonomies:
+        if not tax_id in tax_ids_to_keep:
+            continue
     
     if symbol == '-':
         symbol = None

@@ -5,22 +5,36 @@ import pprint as pp
 import pickle
 from neo4j import GraphDatabase
 import sys
+import argparse
 import utilities as ut
+
+#
+# command line arguments
+#
+parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
+parser.add_argument('--hostname', type=str, help='Hostname.', required=True)
+parser.add_argument('--username', type=str, help='Neo4j username.', required=True)
+parser.add_argument('--password', type=str, help='Neo4j password.', required=True)
+parser.add_argument('--chunk-size', type=int, help='Chunk size.', default=25000)
+args = parser.parse_args()
+
+chunk_size = args.chunk_size
 
 #
 # user settings
 #
 output_directory = 'output'
-chunk_size = 25000
 
 load_all_synonyms = True
 load_all_synonyms_to_tax_id = True
 load_all_synonyms_to_gene_id = True
 
-username = 'neo4j'
-hostname = sys.argv[1]
-password = sys.argv[2]
-uri = 'bolt://' + hostname + ':7687'
+#
+# Neo4j settings
+#
+username = args.username
+password = args.password
+uri = 'bolt://' + args.hostname + ':7687'
 
 #
 # connect to Neo4j

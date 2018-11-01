@@ -48,17 +48,17 @@ cd ..
 cd ..
 
 
-./packages/neo4j-community-3.3.3/bin/neo4j start
+$NEO4J_HOME/bin/neo4j start
 
-python3 load_taxonomy.py hostname password
+python3 load_taxonomy.py --hostname localhost --username neo4j --password a-not-too-serious-password --limit-taxonomies-to 9606,10090,10116
 
-python3 preprocess_gene_info.py
+python3 preprocess_gene_info.py --limit-taxonomies-to 9606,10090,10116
 
-python3 load_gene.py hostname password
+python3 load_gene.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
-python3 load_and_link_synonyms.py hostname password
+python3 load_and_link_synonyms.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
-python3 link_genes_to_taxonomy.py hostname password
+python3 link_genes_to_taxonomy.py --hostname localhost --username neo4j --password a-not-too-serious-password
 ```
 
 ## Useful queries

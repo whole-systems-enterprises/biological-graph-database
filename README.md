@@ -71,6 +71,8 @@ cd project_for_Harvard_Medical_School__Kevin/
 
 python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
+python3 directly_link_genes_to_diseases.py --hostname localhost --username neo4j --password a-not-too-serious-password
+
 cd ..
 
 ## Useful queries
@@ -97,4 +99,11 @@ MATCH (n:NCBI_GENE_SYNONYM) WHERE n.symbol = "A1B" RETURN n;
 Show taxonomy (should be 9606--human) and gene synonyms for human gene A1BG:
 ```
 MATCH (g:NCBI_GENE)-[r1:HAS_NCBI_TAXONOMY]->(t:NCBI_TAXONOMY), (g)-[r2:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM), (gs)-[r3:HAS_NCBI_TAXONOMY]->(t) WHERE g.id = 1 RETURN g, r1, t, r2, gs, r3;
+```
+
+### Much more interesting queries
+
+Show the genes and gene ontology terms connected with diseases.
+```
+MATCH (d:HMS_DISEASE)-[rg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE)-[rgo:HAS_GENE_ONTOLOGY]->(go:GENE_ONTOLOGY) RETURN d, rg, g, rgo, go LIMIT 500;
 ```

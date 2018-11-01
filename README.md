@@ -59,6 +59,8 @@ python3 load_gene.py --hostname localhost --username neo4j --password a-not-too-
 python3 load_and_link_synonyms.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
 python3 link_genes_to_taxonomy.py --hostname localhost --username neo4j --password a-not-too-serious-password
+
+python3 load_gene_to_pubmed.py --hostname localhost --username neo4j --password a-not-too-serious-password --limit-taxonomies-to 9606,10090,10116
 ```
 
 ## Running the code we created for a Harvard Medical School demonstration

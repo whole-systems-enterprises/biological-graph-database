@@ -8,19 +8,35 @@
 import pprint as pp
 from neo4j import GraphDatabase
 import sys
+import argparse
 import utilities as ut
 
 #
-# user settings
+# command line arguments
 #
-username = 'neo4j'
-password = sys.argv[2]
-hostname = sys.argv[1]
-uri = 'bolt://' + hostname + ':7687'
+parser = argparse.ArgumentParser(description='Set up SageMaker training data.')
+parser.add_argument('--hostname', type=str, help='Hostname.', required=True)
+parser.add_argument('--username', type=str, help='Neo4j username.', required=True)
+parser.add_argument('--password', type=str, help='Neo4j password.', required=True)
+parser.add_argument('--chunk-size', type=int, help='Chunk size.', default=25000)
+parser.add_argument('--limit-taxonomies-to', type=str, help='Comma-delimited, e.g. 9606,10090,10116')
+args = parser.parse_args()
 
-chunk_size = 5000
-tax_id_to_keep = [9606]
+chunk_size = 10000
 
+limit_taxonomies = False
+tax_ids_to_keep = []
+if args.limit_taxonomies_to != None:
+    limit_taxonomies = True
+    tax_ids_to_keep = [int(x.strip()) for x in args.limit_taxonomies_to.split(',')] 
+
+#
+# configure Neo4j connection
+#
+username = args.username
+password = args.password
+uri = 'bolt://' + args.hostname + ':7687'
+    
 #
 # read the source file
 #
@@ -33,8 +49,9 @@ for line in f:
         continue
 
     tax_id = int(line[0])
-    if not tax_id in tax_id_to_keep:
-        continue
+    if limit_taxonomies:
+        if not tax_id in tax_ids_to_keep:
+            continue
 
     gene_id = int(line[1])
     pubmed_id = int(line[2])

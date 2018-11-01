@@ -67,8 +67,7 @@ cd project_for_Harvard_Medical_School__Kevin/
 
 python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
-
-
+cd ..
 
 ## Useful queries
 
@@ -78,8 +77,7 @@ Find the taxonomy node for human:
 
 ```
 MATCH (c:NCBI_TAXONOMY) WHERE c.id = 9606 RETURN c;
-``
-
+```
 Find the taxonomy node for human, which specific attributes:
 ```
 MATCH (c:NCBI_TAXONOMY) WHERE c.id = 9606 RETURN c.id AS NCBI_taxonomy_id, c.name AS scientific_name;

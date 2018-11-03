@@ -99,3 +99,28 @@ MATCH (d:HMS_DISEASE)-[rdg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE)-[rggo:HAS_GENE_ONT
 ```
 
 [[image15]]
+
+### Advanced mathematical graph analysis
+
+This material requires that you have the algorithms package installed in your Neo4j instance.
+
+Measure the similarity between each pair of diseases with respect to genes in common using the Jaccard similarity metric:
+```sql
+MATCH (d:HMS_DISEASE)-[rdg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE)
+WITH {item:id(d), categories: collect(id(g))} as disease_data
+WITH collect(disease_data) as data
+CALL algo.similarity.jaccard.stream(data)
+YIELD item1, item2, count1, count2, intersection, similarity
+RETURN algo.getNodeById(item1).name AS disease_from, algo.getNodeById(item2).name AS disease_to, intersection, similarity AS disease_Jaccard_similarity
+ORDER BY disease_Jaccard_similarity DESC
+```
+[[image16]]
+
+Apply a weighted PageRank algorithm to determine the most important genes with respect to the diseases:
+```sql
+CALL algo.pageRank.stream('NCBI_GENE', 'SHARE_ONE_OR_MORE_HMS_DISEASES', {iterations:20, dampingFactor:0.85, weightProperty: "disease_count"})
+YIELD nodeId, score
+RETURN algo.getNodeById(nodeId).name AS gene, score
+ORDER BY score DESC
+```
+[[image17]]

@@ -67,6 +67,7 @@ python3 load_gene_to_go.py --hostname localhost --username neo4j --password a-no
 
 ## Running the code we created for a Harvard Medical School demonstration
 
+```
 cd project_for_Harvard_Medical_School__Kevin/
 
 python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not-too-serious-password
@@ -74,6 +75,7 @@ python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not
 python3 directly_link_genes_to_diseases.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
 cd ..
+```
 
 ## Useful queries
 

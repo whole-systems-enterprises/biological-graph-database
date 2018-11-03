@@ -130,7 +130,7 @@ ORDER BY disease_Jaccard_similarity DESC
 
 ![Tutorial Image 016](images/tutorial_image_016.png)
 
-Apply a weighted PageRank algorithm to determine the most important genes with respect to the diseases:
+Apply a weighted PageRank algorithm to determine the most important genes with respect to the diseases. This is the algorithm that built Google--how they initially ranked web pages in their display:
 ```sql
 CALL algo.pageRank.stream('NCBI_GENE', 'SHARE_ONE_OR_MORE_HMS_DISEASES', {iterations:20, dampingFactor:0.85, weightProperty: "disease_count"})
 YIELD nodeId, score

@@ -74,6 +74,8 @@ python3 code_for_Kevin.py --hostname localhost --username neo4j --password a-not
 
 python3 directly_link_genes_to_diseases.py --hostname localhost --username neo4j --password a-not-too-serious-password
 
+python3 directly_link_genes_to_each_other_weighted_by_diseases.py --hostname localhost --username neo4j --password a-not-too-serious-password
+
 cd ..
 ```
 

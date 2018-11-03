@@ -58,7 +58,7 @@ MATCH (g:NCBI_GENE)-[r:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM) WHERE g.sy
 
 ![Tutorial Image 008](images/tutorial_image_008.png)
 
-Find gene synonyms associated with multiple human genes:
+Find gene synonyms where the synonym is associated with more than one human gene:
 ```sql
 MATCH (t:NCBI_TAXONOMY), (t)<-[rtg1:HAS_NCBI_TAXONOMY]-(g1:NCBI_GENE)-[rg1gs:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM)<-[rg2gs:HAS_NCBI_GENE_SYNONYM]-(g2:NCBI_GENE)-[rtg2:HAS_NCBI_TAXONOMY]->(t) WHERE t.id = 9606 AND g1.id <> g2.id RETURN g1, rg1gs, gs, rg2gs, g2 LIMIT 25;
 ```

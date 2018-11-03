@@ -20,7 +20,7 @@ MATCH (t:NCBI_TAXONOMY) RETURN t.id as taxonomy_id, t.name AS species_name LIMIT
 
 ![Tutorial Image 003](images/tutorial_image_003.png)
 
-Find orthologs of A2M--as defined by same symbol but different capitalization--in the database, showing their respective species as well:
+Find "orthologs" of A2M--in this case genes with the same symbol but different capitalization--in the database, showing their respective species as well:
 ```sql
 MATCH (g:NCBI_GENE)-[rgt:HAS_NCBI_TAXONOMY]-(t:NCBI_TAXONOMY) WHERE LOWER(g.symbol) = "a2m" RETURN g, rgt, t LIMIT 25;
 ```

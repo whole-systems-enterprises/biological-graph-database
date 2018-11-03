@@ -17,52 +17,60 @@ Repeat this procedure in tabular form, showing details:
 ```sql
 MATCH (t:NCBI_TAXONOMY) RETURN t.id as taxonomy_id, t.name AS species_name LIMIT 25;
 ```
-[[image3]]
+
+![Tutorial Image 003](images/tutorial_image_003.png)
 
 Find orthologs of A2M--as defined by same symbol but different capitalization--in the database, showing their respective species as well:
 ```sql
 MATCH (g:NCBI_GENE)-[rgt:HAS_NCBI_TAXONOMY]-(t:NCBI_TAXONOMY) WHERE LOWER(g.symbol) = "a2m" RETURN g, rgt, t LIMIT 25;
 ```
-[[image4]]
+
+![Tutorial Image 004](images/tutorial_image_004.png)
 
 Add Gene Ontology information to the previous query:
 ```sql
 MATCH (go:GENE_ONTOLOGY)<-[rgog:HAS_GENE_ONTOLOGY]-(g:NCBI_GENE)-[rgt:HAS_NCBI_TAXONOMY]-(t:NCBI_TAXONOMY) WHERE LOWER(g.symbol) = "a2m" RETURN go, rgog, g, rgt, t LIMIT 50;
 ```
-[[image1]]
+
+![Tutorial Image 001](images/tutorial_image_001.png)
 
 Find the PubMed IDs that simultaniously involve genes A2M and BRCA1:
 ```
 MATCH (g1:NCBI_GENE)<-[rg1p:INVOLVES_NCBI_GENE]-(p:NCBI_PUBMED)-[rg2p:INVOLVES_NCBI_GENE]->(g2:NCBI_GENE) WHERE g1.symbol = "BRCA1" AND g2.symbol = "A2M" RETURN g1, rg1p, p, rg2p, g2 LIMIT 25;
 ```
-[[image5]]
 
+![Tutorial Image 005](images/tutorial_image_005.png)
 Here is the full tabular view of the previous query:
-[[image6]]
+
+![Tutorial Image 006](images/tutorial_image_006.png)
 
 But we might, for the sake of an automated query for example, want to explicitly specify what we want to see in content returned, e.g.:
 ```sql
 MATCH (g1:NCBI_GENE)<-[rg1p:INVOLVES_NCBI_GENE]-(p:NCBI_PUBMED)-[rg2p:INVOLVES_NCBI_GENE]->(g2:NCBI_GENE) WHERE g1.symbol = "BRCA1" AND g2.symbol = "A2M" RETURN g1.id AS gene_1_NCBI_ID, g1.symbol AS gene_1_symbol, g2.id AS gene_2_NCBI_ID, g2.symbol AS gene_2_symbol, p.id AS pubmed_ID;
 ```
-[[image7]]
+
+![Tutorial Image 007](images/tutorial_image_007.png)
 
 Find the synonyms for "A2M":
 ```sql
 MATCH (g:NCBI_GENE)-[r:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM) WHERE g.symbol = "A2M" RETURN g, r, gs;
 ```
-[[image8]]
+
+![Tutorial Image 008](images/tutorial_image_008.png)
 
 Find gene synonyms associated with multiple human genes:
 ```sql
 MATCH (t:NCBI_TAXONOMY), (t)<-[rtg1:HAS_NCBI_TAXONOMY]-(g1:NCBI_GENE)-[rg1gs:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM)<-[rg2gs:HAS_NCBI_GENE_SYNONYM]-(g2:NCBI_GENE)-[rtg2:HAS_NCBI_TAXONOMY]->(t) WHERE t.id = 9606 AND g1.id <> g2.id RETURN g1, rg1gs, gs, rg2gs, g2 LIMIT 25;
 ```
-[[image9]]
+
+![Tutorial Image 009](images/tutorial_image_009.png)
 
 Same query, but extracting only the symbols:
 ```sql
 MATCH (t:NCBI_TAXONOMY), (t)<-[rtg1:HAS_NCBI_TAXONOMY]-(g1:NCBI_GENE)-[rg1gs:HAS_NCBI_GENE_SYNONYM]->(gs:NCBI_GENE_SYNONYM)<-[rg2gs:HAS_NCBI_GENE_SYNONYM]-(g2:NCBI_GENE)-[rtg2:HAS_NCBI_TAXONOMY]->(t) WHERE t.id = 9606 AND g1.id <> g2.id RETURN gs.symbol AS SYNONYM, g1.symbol AS gene_1_symbol, g2.symbol AS gene_2_symbol LIMIT 25;
 ```
-[[image10]]
+
+![Tutorial Image 010](images/tutorial_image_010.png)
 
 ### Aggregations
 
@@ -70,7 +78,8 @@ Count how many distinct PubMed articles are associated with each human gene:
 ```sql
 MATCH (t:NCBI_TAXONOMY)<-[rtg:HAS_NCBI_TAXONOMY]-(g:NCBI_GENE)<-[rp:INVOLVES_NCBI_GENE]-(p:NCBI_PUBMED) WHERE t.id = 9606 RETURN g.symbol AS gene, COUNT(p) AS pubmed_count;
 ```
-[[image14]]
+
+![Tutorial Image 014](images/tutorial_image_014.png)
 
 ## Focusing on the data provided by Harvard Medical School
 
@@ -78,13 +87,15 @@ Retrieve all the diseases:
 ```sql
 MATCH (d:HMS_DISEASE) RETURN d;
 ```
-[[image11]]
+
+![Tutorial Image 011](images/tutorial_image_011.png)
 
 Connect genes assocated with the diseases:
 ```sql
 MATCH (d:HMS_DISEASE)-[rdg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE) RETURN d, rdg, g LIMIT 25;
 ```
-[[image12]]
+
+![Tutorial Image 012](images/tutorial_image_012.png)
 
 ### Aggregations
 
@@ -92,14 +103,15 @@ Count how many distinct genes are associated with each disease:
 ```sql
 MATCH (d:HMS_DISEASE)-[rdg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE) RETURN d.name AS disease, COUNT(g) AS genes_per_disease;
 ```
-[[image13]]
+
+![Tutorial Image 013](images/tutorial_image_013.png)
 
 Count how many distinct Gene Ontology terms are associated with the genes involved in each disease (and sort them):
 ```sql
 MATCH (d:HMS_DISEASE)-[rdg:INVOLVES_NCBI_GENE]->(g:NCBI_GENE)-[rggo:HAS_GENE_ONTOLOGY]->(go:GENE_ONTOLOGY) RETURN d.name AS disease, COUNT(go) AS number_of_gene_ontology_terms ORDER BY number_of_gene_ontology_terms DESC;
 ```
 
-[[image15]]
+![Tutorial Image 015](images/tutorial_image_015.png)
 
 ### Advanced mathematical graph analysis
 
@@ -115,7 +127,8 @@ YIELD item1, item2, count1, count2, intersection, similarity
 RETURN algo.getNodeById(item1).name AS disease_from, algo.getNodeById(item2).name AS disease_to, intersection, similarity AS disease_Jaccard_similarity
 ORDER BY disease_Jaccard_similarity DESC
 ```
-[[image16]]
+
+![Tutorial Image 016](images/tutorial_image_016.png)
 
 Apply a weighted PageRank algorithm to determine the most important genes with respect to the diseases:
 ```sql
@@ -124,4 +137,5 @@ YIELD nodeId, score
 RETURN algo.getNodeById(nodeId).name AS gene, score
 ORDER BY score DESC
 ```
-[[image17]]
+
+![Tutorial Image 017](images/tutorial_image_017.png)

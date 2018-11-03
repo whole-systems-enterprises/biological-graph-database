@@ -10,7 +10,8 @@ Find all the taxonomies listed in the database:
 ```sql
 MATCH (t:NCBI_TAXONOMY) RETURN t LIMIT 25;
 ```
-[[image2]]
+
+![Tutorial Image 002](images/tutorial_image_002.png)
 
 Repeat this procedure in tabular form, showing details:
 ```sql

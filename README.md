@@ -40,10 +40,10 @@ cd ..
 cd data
 mkdir DisGeNET
 cd DisGeNET
-wget http://www.disgenet.org/ds/DisGeNET/files/current/disgenet_2017_v5-3-0.db.gz
-gunzip disgenet_2017_v5-3-0.db.gz
-cat ../../DisGeNET.sql | sqlite3 disgenet_2017_v5-3-0.db > relevant_db_dump.tsv
-gzip disgenet_2017_v5-3-0.db
+wget http://www.disgenet.org/static/disgenet_ap1/files/current/disgenet_2018.db.gz
+gunzip disgenet_2018.db.gz
+cat ../../DisGeNET.sql | sqlite3 disgenet_2018.db > relevant_db_dump.tsv
+gzip disgenet_2018.db.gz
 cd ..
 cd ..
 

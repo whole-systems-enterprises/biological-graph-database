@@ -44,10 +44,9 @@ wget http://www.disgenet.org/static/disgenet_ap1/files/current/disgenet_2018.db.
 gunzip disgenet_2018.db.gz
 cat ../../DisGeNET.sql | sqlite3 disgenet_2018.db > relevant_db_dump.tsv
 cat ../../DisGeNET_part_02.sql | sqlite3 disgenet_2018.db > relevant_db_dump_DISEASE_NAMES.tsv
-gzip disgenet_2018.db.gz
+gzip disgenet_2018.db
 cd ..
 cd ..
-
 
 $NEO4J_HOME/bin/neo4j start
 

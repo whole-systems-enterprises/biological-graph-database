@@ -73,7 +73,7 @@ f.close()
 #
 # connect to Neo4j
 #
-driver = GraphDatabase.driver(uri, auth=(username, password))
+driver = GraphDatabase.driver(uri, auth=(username, password), encrypted=False)
 
 #
 # clear the way (CRUDE)

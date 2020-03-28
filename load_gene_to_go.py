@@ -39,7 +39,7 @@ uri = 'bolt://' + args.hostname + ':7687'
 #
 # connect to Neo4j
 #
-driver = GraphDatabase.driver(uri, auth=(username, password))
+driver = GraphDatabase.driver(uri, auth=(username, password), encrypted=False)
 
 #
 # read the file
